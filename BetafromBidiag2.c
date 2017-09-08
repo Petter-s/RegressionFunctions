@@ -12,7 +12,7 @@ The function takes 3 inputs (all should be double precision):
 * Input 2: a [m x 1] vector with response values (multiple responses is not supported).
 * Input 3: a [1 x 1] scalar 'A' specifying the maximum number of PLS components to calculate.
 
-The function outputs 3 variables:
+The function outputs one variable:
 * Output 1: a [n x A] matrix with regression coefficients.
 
 Example on how to compile and run from Matlab:
