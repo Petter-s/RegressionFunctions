@@ -21,7 +21,7 @@ Example on how to compile and run from Matlab:
 
 % Run from Matlab when compiled:
 >> X = rand(10000, 256);
->> Y = rand(10000, 1);
+>> y = rand(10000, 1);
 >> A = 10;
 
 >> [ beta ] = BetafromBidiag2( X , y, A );

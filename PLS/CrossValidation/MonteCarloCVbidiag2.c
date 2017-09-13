@@ -43,11 +43,11 @@ Written 2017-08-14 by
 petter.stefansson@nmbu.no
 ———————————————————————————————————————————————————————————————————————————————————————————————— */
 
-#include "mex.h"	// needed to communicate with matlab
-#include "blas.h"	// needed for blas functions
-#include "string.h" // needed to avoid compiler warning due to memcpy when using old compilers
-#include "math.h"   // needed to take the square-root (sqrt)
-#include "time.h"   // Needed for counting CPU clock cycle which is used to set seed for rand()
+#include <mex.h>	// Needed to communicate with Matlab.
+#include <blas.h>	// Needed for blas functions.
+#include <string.h> // Needed to avoid compiler warning due to memcpy when using old compilers.
+#include <math.h>   // Needed to take the square-root (sqrt).
+#include <time.h>   // Needed for counting CPU clock cycle which is used to set seed for rand().
 
 /* ——————————————————————————————————— Function declarations ——————————————————————————————————— */
 void PLS(const double *X, const double *y, int A, size_t m, size_t n, size_t p, double *beta, 
@@ -78,7 +78,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
 	/* ————————————————————  Get pointers to the input variables from Matlab ——————————————————— */
 	X = mxGetPr(prhs[0]);			        // First input (X matrix).
-	y = mxGetPr(prhs[1]);			        // Second input (Y vector).
+	y = mxGetPr(prhs[1]);			        // Second input (y vector).
 
 	/* ————————————————————  Get input scalar values containing PLS settings ——————————————————— */
 	A        = (int)mxGetScalar(prhs[2]);   // Third input (max number of components to calculate)
@@ -121,7 +121,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	thetai    = (double*)malloc(sizeof(double)                      ); // [1-by-1]
 	Tt        = (double*)malloc(sizeof(double) * A                  ); // [A-by-1] (overallocated)
 
-	/* Before starting set the seed of the RNG to the number of clock cycles since computer boot.*/
+	/* Before starting set the seed of the RNG to the number of clock cycles since start.		 */
 	srand(clock());
 
 	/* CV-loop starts here																	     */
@@ -476,11 +476,10 @@ void PLS(const double *X, const double *y, int A, size_t m, size_t n, size_t p, 
 }
 /* ————————————————————————————————————————————————————————————————————————————————————————————— */
 
+/* ————————————————————————————————————————————————————————————————————————————————————————————— */
 /* Function for drawing a random integer that lies within range.								 */
 unsigned int randr(unsigned int min, unsigned int max) {
-	double scaled;
-	scaled = (double)rand() / RAND_MAX;
-	return (max - min + 1)* scaled + min;
+	return min + rand() / (RAND_MAX / (max - min + 1) + 1);
 }
 /* ————————————————————————————————————————————————————————————————————————————————————————————— */
 
